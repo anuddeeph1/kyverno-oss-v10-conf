@@ -1,0 +1,3 @@
+W1025 21:27:42.684679       1 dispatcher.go:142] Failed calling webhook, failing open validate.kyverno.svc-ignore: failed calling webhook "validate.kyverno.svc-ignore": failed to call webhook: Post "https://kyverno-svc.zone-policy-manager.svc:443/validate/ignore?timeout=1s": context deadline exceeded
+E1025 21:27:42.684712       1 dispatcher.go:149] failed calling webhook "validate.kyverno.svc-ignore": failed to call webhook: Post "https://kyverno-svc.zone-policy-manager.svc:443/validate/ignore?timeout=1s": context deadline exceeded
+E1025 21:27:42.684834       1 finisher.go:175] FinishRequest: post-timeout activity - time-elapsed: 87.478µs, panicked: false, err: context deadline exceeded, panic-reason: <nil>

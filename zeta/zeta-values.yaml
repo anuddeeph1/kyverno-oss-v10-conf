@@ -1,0 +1,73 @@
+  features:
+    omitEvents:
+      # -- Events which should not be emitted (possible values `PolicyViolation`, `PolicyApplied`, `PolicyError`, and `PolicySkipped`)
+      eventTypes:
+        # - PolicyViolation
+        - PolicyApplied
+        # - PolicyError
+        # - PolicySkipped
+  admissionController:
+    replicas: 3
+    # # minReplicas: 3
+    maxReplicas: 7
+    cpuThresholdPercentage: 90
+    memoryThresholdPercentage: 85
+  #  hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    serviceMonitor:
+      enabled: true
+    container:
+      resources:
+        # -- Pod resource limits
+        limits:
+          memory: 1024Mi
+          cpu: 1
+   #priorityClassName: "zone-service-high-priority"
+  backgroundController:
+    replicas: 2
+   # hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    serviceMonitor:
+      enabled: true
+  cleanupController:
+    replicas: 2
+    #hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    serviceMonitor:
+      enabled: true
+  reportsController:
+    replicas: 2
+    #hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    serviceMonitor:
+      enabled: true
+    resources:
+      limits:
+        memory: 2048Mi
+        cpu: 1
+      requests:
+        cpu: 100m
+        memory: 1024Mi
+  metricsConfig:
+    namespaces:
+    # -- list of namespaces to NOT capture metrics for.
+      exclude:
+        - kube-system
+        - kube-public
+        - zone-policy-manager
+        - zone-monitoring
+  config:
+    webhooks:
+      # Exclude namespaces
+      - namespaceSelector:
+          matchExpressions:
+          - key: kubernetes.io/metadata.name
+            operator: NotIn
+            values:
+              - kube-system
+              - kube-public
+              - zone-policy-manager
+              - zone-monitoring
+    grafana:
+      # -- Enable grafana dashboard creation.
+      enabled: true
